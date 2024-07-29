@@ -1,6 +1,6 @@
+import carpenter/table
 import gleeunit
 import gleeunit/should
-import carpenter/table
 
 pub fn main() {
   gleeunit.main()
@@ -160,4 +160,19 @@ pub fn take_test() {
   t
   |> table.contains(1)
   |> should.be_false
+}
+
+pub fn bag_insert_test() {
+  let t =
+    table.build("bag_insert_test")
+    |> table.bag
+    |> should.be_ok
+
+  t
+  |> table.insert([#("hello", "world")])
+  t
+  |> table.insert([#("hello", "people")])
+  t
+  |> table.lookup("hello")
+  |> should.equal([#("hello", "world"), #("hello", "people")])
 }

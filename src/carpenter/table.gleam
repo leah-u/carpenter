@@ -1,9 +1,9 @@
+import carpenter/internal/ets_bindings
+import gleam/dynamic
 import gleam/erlang/atom
 import gleam/erlang/process
-import gleam/dynamic
 import gleam/list
 import gleam/option.{type Option, None, Some}
-import carpenter/internal/ets_bindings
 
 pub type TableBuilder(k, v) {
   TableBuilder(
@@ -167,6 +167,14 @@ pub fn set(builder: TableBuilder(k, v)) -> Result(Set(k, v), Nil) {
 /// Specify table as an `ordered_set`
 pub fn ordered_set(builder: TableBuilder(k, v)) -> Result(Set(k, v), Nil) {
   case build_table(builder, "ordered_set") {
+    Ok(t) -> Ok(Set(Table(t)))
+    Error(_) -> Error(Nil)
+  }
+}
+
+/// Specify table as a `bag`
+pub fn bag(builder: TableBuilder(k, v)) -> Result(Set(k, v), Nil) {
+  case build_table(builder, "bag") {
     Ok(t) -> Ok(Set(Table(t)))
     Error(_) -> Error(Nil)
   }
